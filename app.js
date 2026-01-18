@@ -10,29 +10,16 @@ import {
   doc,
   getDoc,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { firebaseConfig } from "./config.js";
 
-// 1. Your Firebase configuration (Visible, and that's okay!)
-const firebaseConfig = {
-  apiKey: "AIzaSyA4O5x8OEkTC7qhGRV_SUo-oHR1Oo7TLKI",
-  authDomain: "famtree-e7f51.firebaseapp.com",
-  projectId: "famtree-e7f51",
-  storageBucket: "famtree-e7f51.firebasestorage.app",
-  messagingSenderId: "671703137374",
-  appId: "1:671703137374:web:5e022f7b2e97192bf9c8cf",
-  measurementId: "G-EKCCH17KTY",
-};
-
-// 2. Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// 3. UI Elements
 const loginBtn = document.getElementById("login-btn");
 const dataSection = document.getElementById("data-section");
 const authSection = document.getElementById("auth-section");
 
-// 4. Handle Authentication State
 onAuthStateChanged(auth, (user) => {
   if (user) {
     authSection.style.display = "none";
@@ -43,7 +30,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// 5. Login Logic
+// Login Logic
 loginBtn.addEventListener("click", async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -55,7 +42,7 @@ loginBtn.addEventListener("click", async () => {
   }
 });
 
-// 6. Fetch Data (The "Query")
+// Fetch Data (The "Query")
 document
   .getElementById("fetch-data-btn")
   .addEventListener("click", async () => {
