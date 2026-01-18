@@ -25,6 +25,7 @@ const db = getDatabase(app);
 const loginBtn = document.getElementById("login-btn");
 const dataSection = document.getElementById("data-section");
 const authSection = document.getElementById("auth-section");
+const jsonInput = document.getElementById("json-input");
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
