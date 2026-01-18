@@ -20,7 +20,7 @@ import { firebaseConfig } from "./config.js";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+const db = getDatabase(app);
 
 const loginBtn = document.getElementById("login-btn");
 const dataSection = document.getElementById("data-section");
