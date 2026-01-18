@@ -10,6 +10,12 @@ import {
   doc,
   getDoc,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {
+  getDatabase,
+  ref,
+  get,
+  update,
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 import { firebaseConfig } from "./config.js";
 
 const app = initializeApp(firebaseConfig);
@@ -43,24 +49,67 @@ loginBtn.addEventListener("click", async () => {
 });
 
 // Fetch Data (The "Query")
+// document
+//   .getElementById("fetch-data-btn")
+//   .addEventListener("click", async () => {
+//     try {
+//       // Example: Fetching a document called 'config' from the 'settings' collection
+//       const docRef = doc(db, "settings", "config");
+//       const docSnap = await getDoc(docRef);
+
+//       if (docSnap.exists()) {
+//         document.getElementById("output").textContent = JSON.stringify(
+//           docSnap.data(),
+//           null,
+//           2,
+//         );
+//       } else {
+//         console.log("No such document!");
+//       }
+//     } catch (error) {
+//       alert("Permission denied! Check your Security Rules.");
+//     }
+//   });
+
 document
   .getElementById("fetch-data-btn")
   .addEventListener("click", async () => {
+    const dbRef = ref(db, "sharedConfig"); // Pointing to the 'sharedConfig' node
     try {
-      // Example: Fetching a document called 'config' from the 'settings' collection
-      const docRef = doc(db, "settings", "config");
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        document.getElementById("output").textContent = JSON.stringify(
-          docSnap.data(),
-          null,
-          2,
-        );
+      const snapshot = await get(dbRef);
+      if (snapshot.exists()) {
+        jsonInput.value = JSON.stringify(snapshot.val(), null, 2);
       } else {
-        console.log("No such document!");
+        console.log("No data available");
       }
     } catch (error) {
-      alert("Permission denied! Check your Security Rules.");
+      alert("Read failed: " + error.message);
     }
   });
+
+// --- UPDATE DATA ---
+document
+  .getElementById("update-data-btn")
+  .addEventListener("click", async () => {
+    try {
+      const newData = JSON.parse(jsonInput.value); // Convert string back to JSON object
+      const dbRef = ref(db, "sharedConfig");
+
+      // 'update' merges data; 'set' overwrites the whole path
+      await update(dbRef, newData);
+      alert("Data updated successfully!");
+    } catch (error) {
+      alert(
+        "Update failed! Make sure your JSON is valid and you have permission.",
+      );
+    }
+  });
+
+document.getElementById("logout-btn").addEventListener("click", async () => {
+  try {
+    await signOut(auth);
+    alert("Logged out!");
+  } catch (error) {
+    alert("Something went wrong! Try again later.");
+  }
+});
