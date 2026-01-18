@@ -49,29 +49,6 @@ loginBtn.addEventListener("click", async () => {
   }
 });
 
-// Fetch Data (The "Query")
-// document
-//   .getElementById("fetch-data-btn")
-//   .addEventListener("click", async () => {
-//     try {
-//       // Example: Fetching a document called 'config' from the 'settings' collection
-//       const docRef = doc(db, "settings", "config");
-//       const docSnap = await getDoc(docRef);
-
-//       if (docSnap.exists()) {
-//         document.getElementById("output").textContent = JSON.stringify(
-//           docSnap.data(),
-//           null,
-//           2,
-//         );
-//       } else {
-//         console.log("No such document!");
-//       }
-//     } catch (error) {
-//       alert("Permission denied! Check your Security Rules.");
-//     }
-//   });
-
 document
   .getElementById("fetch-data-btn")
   .addEventListener("click", async () => {
@@ -79,6 +56,7 @@ document
     try {
       const snapshot = await get(dbRef);
       if (snapshot.exists()) {
+        console.log("Data fetched successfully!");
         jsonInput.value = JSON.stringify(snapshot.val(), null, 2);
       } else {
         console.log("No data available");
